@@ -33,12 +33,6 @@ Or as a module:
 python -m raytracer
 ```
 
-Suggested CLI options to implement:
-- `--width`, `--height` — render resolution
-- `--samples` — anti-aliasing / samples per pixel
-- `--depth` — reflection recursion depth
-- `--preview` — interactive low-res preview
-
 ## Controls (preview window)
 - Mouse click moves light source to location
 
