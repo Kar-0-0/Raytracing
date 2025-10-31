@@ -23,8 +23,11 @@ curr_xy = source_center
 
 obj_x, obj_y = 900, 600
 obj_radius = 120
+obj_y_vel = 100
 
-num_rays = 250
+num_rays = 500
+
+white = (255, 255, 255)
 
 def draw_circle(surface, color, center, radius, width=0):
     pygame.draw.circle(surface, color, center, radius, width)
@@ -38,7 +41,6 @@ def check_ray_col(rect_x, rect_y):
 
 
 def draw_rays(circ_center, num_rays, ray_color):
-    ray_start_x, ray_start_y = circ_center[0], circ_center[1]
     angle_step = 360 / num_rays
     angle = 0
     
@@ -50,44 +52,44 @@ def draw_rays(circ_center, num_rays, ray_color):
         curr_y = circ_center[1]
 
         while curr_x >= 0 and curr_x <= WIDTH and curr_y >= 0 and curr_y <= HEIGHT:
-            print(angle)
             rect_x = curr_x + math.cos((angle * math.pi) / 180)
             rect_y = (curr_y + math.sin((angle * math.pi) / 180))
-            
+
             curr_x = rect_x
             curr_y = rect_y
-            
             if check_ray_col(rect_x, rect_y):
                 break
 
             pygame.draw.rect(screen, ray_color, (rect_x, rect_y, 1, 1))
 
-
         angle += angle_step
 
+def move_object(obj_y, obj_y_vel):
+    
+    if obj_y < 0:
+        obj_y_vel = -10
+    elif obj_y > HEIGHT:
+        obj_y_vel = 10
+
+    obj_y += obj_y_vel
+
+    draw_circle(screen, white, (obj_x, obj_y), obj_radius)
+    draw_circle(screen, fill_color, (obj_x, obj_y-obj_y_vel), obj_radius)
 
 def main():
-    global running, start, obj_x, obj_y
+    global running, start, obj_x, obj_y, obj_y_vel
+
+    draw_circle(screen, (255, 255, 255), (obj_x, obj_y), obj_radius)
 
     while running: 
-        draw_circle(screen, (255, 255, 255), (obj_x, obj_y), obj_radius)
-        # obj_y_vel = 10
-        # if obj_y < 0:
-        #     obj_y_vel = -10
-        # elif obj_y > HEIGHT:
-        #     obj_y_vel = 10
-        # else:
-        #     obj_y += obj_y_vel
-        # draw_circle(screen, fill_color, (obj_x, obj_y-obj_y_vel), obj_radius)
+        # move_object(obj_y, obj_y_vel)
         
-
         if start:
             prev_mouse_x = 200
             prev_mouse_y = 200
             draw_circle(screen, source_color, source_center, source_radius)
 
         draw_rays((prev_mouse_x, prev_mouse_y), num_rays, source_color)
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
