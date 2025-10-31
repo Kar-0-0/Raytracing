@@ -13,7 +13,7 @@ dragging = False
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-source_color = (255, 255, 255)
+source_color = (239, 251, 0)
 source_center = (200, 200)
 source_radius = 75
 
@@ -24,7 +24,7 @@ curr_xy = source_center
 obj_x, obj_y = 900, 600
 obj_radius = 120
 
-num_rays = 500
+num_rays = 250
 
 def draw_circle(surface, color, center, radius, width=0):
     pygame.draw.circle(surface, color, center, radius, width)
@@ -67,10 +67,19 @@ def draw_rays(circ_center, num_rays, ray_color):
 
 
 def main():
-    global running, start
+    global running, start, obj_x, obj_y
 
     while running: 
         draw_circle(screen, (255, 255, 255), (obj_x, obj_y), obj_radius)
+        # obj_y_vel = 10
+        # if obj_y < 0:
+        #     obj_y_vel = -10
+        # elif obj_y > HEIGHT:
+        #     obj_y_vel = 10
+        # else:
+        #     obj_y += obj_y_vel
+        # draw_circle(screen, fill_color, (obj_x, obj_y-obj_y_vel), obj_radius)
+        
 
         if start:
             prev_mouse_x = 200
